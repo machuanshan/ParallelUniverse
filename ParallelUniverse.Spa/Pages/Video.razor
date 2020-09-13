@@ -1,20 +1,24 @@
 ﻿@page "/video/{VideoName}"
+@inject IConfiguration Configuration
 
 <h1>@VideoName</h1>
 
 <video width="320" height="240" autoplay controls>
-    <source src="@VideoName" type="video/mp4"/>
+    <source src="@_videoUrl" type="video/mp4" />
 </video>
 
 @code {
-    
+
     [Parameter]
     public string VideoName { get; set; }
 
-    private int currentCount = 0;
+    private string _videoUrl;
 
-    private void IncrementCount()
+    protected override void OnInitialized()
     {
-        currentCount++;
+        var webApiUrl = Configuration.GetValue<string>("puWebApi");
+        _videoUrl = $"{webApiUrl}/video/{VideoName}";
+        
+        base.OnInitialized();
     }
 }

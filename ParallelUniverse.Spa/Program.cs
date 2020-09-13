@@ -12,14 +12,18 @@ namespace ParallelUniverse.Spa
 {
     public class Program
     {
+        public static string DebugString;
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
+            var webApiUrl = builder.Configuration.GetValue<string>("puWebApi");
 
+            DebugString += webApiUrl;
+            DebugString += builder.HostEnvironment.BaseAddress;
             builder.Services.AddScoped(sp => new HttpClient 
             { 
-                BaseAddress = new Uri("http://localhost:5000")
+                BaseAddress = new Uri(webApiUrl)
                 //BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) 
             });
 

@@ -32,7 +32,7 @@ namespace ParallelUniverse.WebApi.Controllers
             var files = Directory.GetFiles(dir);
             return files.Select(f => new VideoInfo
             {
-                Name = f
+                Name = Path.GetFileName(f)
             });
         }
     }

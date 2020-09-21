@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using ParallelUniverse.WebApi.PuAuth;
 
 namespace ParallelUniverse.WebApi
 {
@@ -21,7 +24,6 @@ namespace ParallelUniverse.WebApi
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(corsOptions =>
@@ -31,6 +33,20 @@ namespace ParallelUniverse.WebApi
                     corsPolicyBuilder.AllowAnyOrigin();
                 });
             });
+
+            services.AddMemoryCache(op => op.ExpirationScanFrequency = TimeSpan.FromMinutes(1));
+            services.AddSingleton<UserService>();
+            services.AddSingleton<MyUniverseAuthHandler>();
+            services.AddAuthentication("UniverseAuth")
+                .AddScheme<MyUniverseAuthOptions, MyUniverseAuthHandler>("UniverseAuth", op => { });
+
+            services.AddAuthorization(options =>
+            {
+                options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+            });
+
             services.AddControllers();
         }
 
@@ -44,6 +60,8 @@ namespace ParallelUniverse.WebApi
 
             app.UseRouting();
             app.UseCors();
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

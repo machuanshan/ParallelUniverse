@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParallelUniverse.WebApi", "ParallelUniverse.WebApi\ParallelUniverse.WebApi.csproj", "{D426D7C2-5C79-418B-9D2D-860CDE645D1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParallelUniverse.Spa", "ParallelUniverse.Spa\ParallelUniverse.Spa.csproj", "{E7650610-712E-4CE3-927B-9894B32DC532}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParallelUniverse.Spa", "ParallelUniverse.Spa\ParallelUniverse.Spa.csproj", "{E7650610-712E-4CE3-927B-9894B32DC532}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParallelUniverse.Model", "ParallelUniverse.Model\ParallelUniverse.Model.csproj", "{BBA76AC1-D2B9-41A3-B709-6B1347C05E69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParallelUniverse.Model", "ParallelUniverse.Model\ParallelUniverse.Model.csproj", "{BBA76AC1-D2B9-41A3-B709-6B1347C05E69}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

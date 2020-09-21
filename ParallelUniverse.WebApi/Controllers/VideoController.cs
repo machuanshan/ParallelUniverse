@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Net.Http.Headers;
 using ParallelUniverse.Model;
 
 namespace ParallelUniverse.WebApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api")]
     public class VideoController : ControllerBase
     {
         private readonly IConfiguration _configuration;
@@ -27,7 +25,7 @@ namespace ParallelUniverse.WebApi.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
+        [HttpGet("videos")]
         public IEnumerable<VideoInfo> VideoList()
         {
             var dir = _configuration.GetValue<string>("VideoDir");
@@ -38,7 +36,7 @@ namespace ParallelUniverse.WebApi.Controllers
             });
         }
 
-        [HttpGet("{name}")]
+        [HttpGet("video/{name}")]
         public IActionResult GetVideo(string name)
         {
             var dir = _configuration.GetValue<string>("VideoDir");

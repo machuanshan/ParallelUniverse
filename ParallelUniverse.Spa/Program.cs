@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Components.Authorization;
+using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Routing;
+using Blazored.SessionStorage;
 
 namespace ParallelUniverse.Spa
 {
@@ -16,13 +20,18 @@ namespace ParallelUniverse.Spa
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
+
+            builder.Services.AddBlazoredSessionStorage();
+            builder.Services.AddAuthorizationCore();
+            builder.Services.AddScoped<UniverseAuthStateProvider>();
+            builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<UniverseAuthStateProvider>());
             builder.RootComponents.Add<App>("app");
             var webApiUrl = builder.Configuration.GetValue<string>("puWebApi");
 
-            DebugString += webApiUrl;
-            DebugString += builder.HostEnvironment.BaseAddress;
-            builder.Services.AddScoped(sp => new HttpClient 
-            { 
+            //DebugString += webApiUrl;
+            //DebugString += builder.HostEnvironment.BaseAddress;
+            builder.Services.AddSingleton(sp => new HttpClient
+            {
                 BaseAddress = new Uri(webApiUrl)
                 //BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) 
             });

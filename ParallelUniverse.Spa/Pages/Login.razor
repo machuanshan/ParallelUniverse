@@ -1,0 +1,48 @@
+﻿@page "/login"
+@attribute [AllowAnonymous]
+@inject UniverseAuthStateProvider AuthStateProvider
+@inject NavigationManager NavigationManager
+@namespace Microsoft.AspNetCore.WebUtilities
+
+<h3>Login</h3>
+
+<EditForm Model="_loginInfo" OnSubmit="HandleSubmit">
+    <DataAnnotationsValidator/>
+    <InputText id="userName" @bind-Value="_loginInfo.UserName"/>
+    <InputText @bind-Value="_loginInfo.Password"/>
+    <button type="submit">Login</button>
+</EditForm>
+
+@code {
+
+    private LoginInfo _loginInfo = new LoginInfo();
+
+    private async void HandleSubmit()
+    {
+        try
+        {
+            var ok = await AuthStateProvider.LoginAsync(_loginInfo);
+
+            if (!ok)
+            {
+                return;
+            }
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e);
+            return;
+        }
+
+        var uri = new Uri(NavigationManager.Uri);
+        if (!QueryHelpers.ParseQuery(uri.Query).TryGetValue("redirect", out var redirectUri))
+        {
+            if (string.IsNullOrEmpty(redirectUri))
+            {
+                redirectUri = "/";
+            }
+        }
+
+        NavigationManager.NavigateTo(redirectUri);
+    }
+}

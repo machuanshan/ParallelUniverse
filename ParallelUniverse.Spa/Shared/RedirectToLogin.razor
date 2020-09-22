@@ -1,0 +1,13 @@
+﻿@inject NavigationManager NavigationManager
+
+@code {
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    
+        var uri = new Uri(NavigationManager.Uri);
+        var pathAndQuery = uri.PathAndQuery.TrimStart('/');
+        var redirectString = string.IsNullOrEmpty(pathAndQuery) ? string.Empty : $"?redirect={pathAndQuery}";
+        NavigationManager.NavigateTo($"login{redirectString}");
+    }
+}

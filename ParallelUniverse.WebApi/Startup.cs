@@ -30,7 +30,10 @@ namespace ParallelUniverse.WebApi
             {
                 corsOptions.AddDefaultPolicy(corsPolicyBuilder =>
                 {
-                    corsPolicyBuilder.AllowAnyOrigin();
+                    corsPolicyBuilder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
                 });
             });
 

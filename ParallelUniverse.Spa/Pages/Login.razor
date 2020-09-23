@@ -2,17 +2,44 @@
 @attribute [AllowAnonymous]
 @inject UniverseAuthStateProvider AuthStateProvider
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
 @namespace Microsoft.AspNetCore.WebUtilities
 
-<h3>Login</h3>
+<h3>平行宇宙传送门</h3>
 
 <EditForm Model="_loginInfo" OnSubmit="HandleSubmit">
-    <DataAnnotationsValidator/>
-    <InputText id="userName" @bind-Value="_loginInfo.UserName"/>
-    <InputText @bind-Value="_loginInfo.Password"/>
-    <button type="submit">Login</button>
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <input id="userName"
+               class="form-control"
+               required
+               placeholder="用户名"
+               @bind="_loginInfo.UserName" />
+    </div>
+    <div class="form-group">
+        <input id="pwd"
+               type="password"
+               class="form-control"
+               required
+               placeholder="密码"
+               @bind="_loginInfo.Password" />
+    </div>
+    <button type="submit" class="btn btn-primary">进入</button>
+
 </EditForm>
 
+<div id="errorDlg" role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false">
+    <div class="toast-header">
+        <img src="..." class="rounded mr-2">
+        <strong class="mr-auto">进入我的宇宙</strong>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="toast-body">
+        无效的用户名或密码
+    </div>
+</div>
 @code {
 
     private LoginInfo _loginInfo = new LoginInfo();
@@ -25,10 +52,11 @@
 
             if (!ok)
             {
+                await JSRuntime.InvokeVoidAsync("toast", "#errorDlg", "show");
                 return;
             }
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Console.WriteLine(e);
             return;

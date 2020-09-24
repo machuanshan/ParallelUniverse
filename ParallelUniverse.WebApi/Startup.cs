@@ -39,6 +39,7 @@ namespace ParallelUniverse.WebApi
 
             services.AddMemoryCache(op => op.ExpirationScanFrequency = TimeSpan.FromMinutes(1));
             services.AddSingleton<UserService>();
+            services.AddSingleton<UniverseService>();
             services.AddSingleton<MyUniverseAuthHandler>();
             services.AddAuthentication("UniverseAuth")
                 .AddScheme<MyUniverseAuthOptions, MyUniverseAuthHandler>("UniverseAuth", op => { });

@@ -33,7 +33,7 @@ namespace ParallelUniverse.WebApi
 
             if(userInfo != null)
             {
-                var token = GetSessionToken();
+                var token = Utils.GetRandomString(64);
                 _sessions.Set(token, userInfo, TimeSpan.FromMinutes(10));
                 return token;
             }
@@ -45,14 +45,6 @@ namespace ParallelUniverse.WebApi
         {
             _sessions.TryGetValue<UserInfo>(sessionToken, out var user);
             return user;
-        }
-
-        private string GetSessionToken()
-        {
-            var rng = RandomNumberGenerator.Create();
-            var randomData = new byte[64];
-            rng.GetNonZeroBytes(randomData);
-            return Convert.ToBase64String(randomData);
         }
     }
 }

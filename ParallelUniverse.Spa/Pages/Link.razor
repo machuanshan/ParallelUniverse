@@ -1,0 +1,44 @@
+﻿@page "/link"
+@inject NavigationManager NavigationManager
+@inject HttpClient HttpClient
+
+<h3>生成传送链</h3>
+
+<br />
+<form>
+    
+    <select id="duration" class="form-control" @bind="_strDuration">
+        <option selected value="">选择宇宙生命</option>
+        <option value="00:05:00">5分钟</option>
+        <option value="00:10:00">10分钟</option>
+        <option value="00:30:00">半小时</option>
+        <option value="01:00:00">1小时</option>
+        <option value="02:00:00">2小时</option>
+        <option value="06:00:00">6小时</option>
+        <option value="12:00:00">12小时</option>
+        <option value="1.00:00:00">1天</option>
+        <option value="2.00:00:00">2天</option>
+    </select>
+    <br />
+    <button class="btn btn-primary" @onclick="GeneratePortalLink">开始</button>
+
+</form>
+
+<div>
+    @_pulink
+</div>
+
+@code {
+
+    private string _strDuration;
+    private string _pulink;
+
+    private async void GeneratePortalLink()
+    {
+        if(!string.IsNullOrEmpty(_strDuration))
+        {
+            var httpRes = await HttpClient.PostAsync($"pulink?{new Uri(NavigationManager.Uri).Query}&duration={_strDuration}", null);
+            _pulink = await httpRes.Content.ReadAsStringAsync();
+        }
+    }
+}

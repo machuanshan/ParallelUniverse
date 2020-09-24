@@ -28,49 +28,46 @@
 
 </EditForm>
 
-<div id="errorDlg" role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false">
-    <div class="toast-header">
-        <img src="..." class="rounded mr-2">
-        <strong class="mr-auto">进入我的宇宙</strong>
-        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+@if (!_loginPass)
+{
+    <div class="alert alert-danger" role="alert" style="margin-top:10px">
+        传送失败，无效的用户名或密码
     </div>
-    <div class="toast-body">
-        无效的用户名或密码
-    </div>
-</div>
+}
+
 @code {
 
     private LoginInfo _loginInfo = new LoginInfo();
+    private bool _loginPass = true;
 
     private async void HandleSubmit()
     {
         try
         {
-            var ok = await AuthStateProvider.LoginAsync(_loginInfo);
-
-            if (!ok)
-            {
-                await JSRuntime.InvokeVoidAsync("toast", "#errorDlg", "show");
-                return;
-            }
+            _loginPass = await AuthStateProvider.LoginAsync(_loginInfo);
         }
         catch (Exception e)
         {
+            _loginPass = false;
             Console.WriteLine(e);
-            return;
         }
 
-        var uri = new Uri(NavigationManager.Uri);
-        if (!QueryHelpers.ParseQuery(uri.Query).TryGetValue("redirect", out var redirectUri))
+        if (_loginPass)
         {
-            if (string.IsNullOrEmpty(redirectUri))
+            var uri = new Uri(NavigationManager.Uri);
+            if (!QueryHelpers.ParseQuery(uri.Query).TryGetValue("redirect", out var redirectUri))
             {
-                redirectUri = "/";
+                if (string.IsNullOrEmpty(redirectUri))
+                {
+                    redirectUri = "/";
+                }
             }
-        }
 
-        NavigationManager.NavigateTo(redirectUri);
+            NavigationManager.NavigateTo(redirectUri);
+        }
+        else
+        {
+            StateHasChanged();
+        }
     }
 }

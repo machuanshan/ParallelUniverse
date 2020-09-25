@@ -5,12 +5,15 @@
 </div>*@
 
 <div class="main">
-    <div class="top-row px-4">
-        <img src="/universe.png" class="float-left" style="width: 50px;height:50px">
-        <span style="margin-left:20px">我的平行宇宙</span>
-        <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
-    </div>
 
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            <img src="/universe.png" width="50" height="50">
+            @*<span style="margin-left:20px">我的平行宇宙</span>*@
+            我的平行宇宙
+        </a>
+    </nav>
+    
     <div class="content px-4">
         @Body
     </div>

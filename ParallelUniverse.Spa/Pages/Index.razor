@@ -1,6 +1,7 @@
 ﻿@page "/"
-@inject HttpClient Http
+@inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
+@inject ILogger<Index> Logger
 
 <h3>媒体库</h3>
 <br />
@@ -35,13 +36,12 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _videos = await Http.GetFromJsonAsync<VideoInfo[]>("videos");
+        _videos = await HttpClient.GetFromJsonAsync<VideoInfo[]>("videos");
     }
 
     private void GenPortalLink(string target)
     {
-        var escapedTarget = Uri.EscapeDataString(target);
-        Console.WriteLine(escapedTarget);
+        var escapedTarget = Uri.EscapeDataString(target);        
         NavigationManager.NavigateTo($"link?target={escapedTarget}");
     }
 }

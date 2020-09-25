@@ -36,6 +36,7 @@ namespace ParallelUniverse.Spa
                 //BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) 
             });
 
+            builder.Logging.SetMinimumLevel(LogLevel.Debug);
             await builder.Build().RunAsync();
         }
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ParallelUniverse.WebApi.Controllers
 {
-    [Route("api")]
+    [Route("api/pu")]
     [ApiController]
     public class ParallelUniverseController : ControllerBase
     {
@@ -17,10 +17,10 @@ namespace ParallelUniverse.WebApi.Controllers
             _universeService = universeService;
         }
 
-        [HttpGet("pulink")]
-        public string GeneratePortalLink(string link, TimeSpan duration)
+        [HttpPost("link")]
+        public string GeneratePortalLink(string target, TimeSpan duration)
         {
-            return _universeService.GeneratePortalLink(link, duration);
+            return _universeService.GeneratePortalLink(target, duration);
         }
     }
 }

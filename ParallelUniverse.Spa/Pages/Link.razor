@@ -5,40 +5,68 @@
 <h3>生成传送链</h3>
 
 <br />
-<form>
-    
-    <select id="duration" class="form-control" @bind="_strDuration">
-        <option selected value="">选择宇宙生命</option>
-        <option value="00:05:00">5分钟</option>
-        <option value="00:10:00">10分钟</option>
-        <option value="00:30:00">半小时</option>
-        <option value="01:00:00">1小时</option>
-        <option value="02:00:00">2小时</option>
-        <option value="06:00:00">6小时</option>
-        <option value="12:00:00">12小时</option>
-        <option value="1.00:00:00">1天</option>
-        <option value="2.00:00:00">2天</option>
-    </select>
-    <br />
-    <button class="btn btn-primary" @onclick="GeneratePortalLink">开始</button>
 
-</form>
+<select id="duration" class="form-control" @bind="_strDuration">
+    <option selected value="">选择宇宙生命</option>
+    <option value="00:05:00">5分钟</option>
+    <option value="00:10:00">10分钟</option>
+    <option value="00:30:00">半小时</option>
+    <option value="01:00:00">1小时</option>
+    <option value="02:00:00">2小时</option>
+    <option value="06:00:00">6小时</option>
+    <option value="12:00:00">12小时</option>
+    <option value="1.00:00:00">1天</option>
+    <option value="2.00:00:00">2天</option>
+</select>
+<br />
+<button class="btn btn-primary" @onclick="GeneratePortalLink">开始</button>
 
-<div>
+<br />
+<br />
+@if (!string.IsNullOrEmpty(_error))
+{
+    <div class="alert alert-danger" role="alert">
+        @_error
+    </div>
+}
+else if (!string.IsNullOrEmpty(_pulink))
+{
+<div class="alert alert-primary" role="alert">
     @_pulink
+    <br />
+    <br />
+    <button class="btn btn-primary">复制</button>
 </div>
+}
 
 @code {
 
     private string _strDuration;
     private string _pulink;
+    private string _error;
 
     private async void GeneratePortalLink()
     {
-        if(!string.IsNullOrEmpty(_strDuration))
+        try
         {
-            var httpRes = await HttpClient.PostAsync($"pulink?{new Uri(NavigationManager.Uri).Query}&duration={_strDuration}", null);
-            _pulink = await httpRes.Content.ReadAsStringAsync();
+            if (!string.IsNullOrEmpty(_strDuration))
+            {
+                var uri = new Uri(NavigationManager.Uri);
+                var query = QueryHelpers.ParseQuery(uri.Query);
+                if (query.TryGetValue("target", out var target))
+                {
+                    var httpRes = await HttpClient.PostAsync($"pu/link?target={Uri.EscapeDataString(target)}&duration={_strDuration}", null);
+                    var pathAndQuery = await httpRes.Content.ReadAsStringAsync();
+                    _pulink = NavigationManager.BaseUri + pathAndQuery.TrimStart('/');
+                }
+            }
         }
+        catch (Exception e)
+        {
+            _error = e.Message;
+            Console.WriteLine(e);
+        }
+
+        StateHasChanged();
     }
 }

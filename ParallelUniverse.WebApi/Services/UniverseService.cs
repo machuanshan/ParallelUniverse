@@ -16,7 +16,7 @@ namespace ParallelUniverse.WebApi
             _linkCache = memoryCache;
         }
 
-        public string GeneratePortalLink(string link, TimeSpan duration)
+        public string GeneratePortalLink(string target, TimeSpan duration)
         {
             while (true)
             {
@@ -24,8 +24,8 @@ namespace ParallelUniverse.WebApi
 
                 if (!_linkCache.TryGetValue(key, out _))
                 {
-                    _linkCache.Set(key, link, duration);
-                    return QueryHelpers.AddQueryString(link, "key", key);
+                    _linkCache.Set(key, target, duration);
+                    return QueryHelpers.AddQueryString(target, "key", key);
                 }
             }            
         }

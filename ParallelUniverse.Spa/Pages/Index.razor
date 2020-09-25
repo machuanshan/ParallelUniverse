@@ -15,14 +15,14 @@ else
         <tbody>
             @foreach (var v in _videos)
             {
-                var link = $"video/{v.Name}";
+                var target = Uri.EscapeUriString($"/video/{v.Name}");
 
                 <tr>
                     <td>
-                        <a href="@link">@v.Name</a>
+                        <a href="@target">@v.Name</a>
                     </td>
                     <td>
-                        <button class="btn btn-primary" @onclick="@(() => GenPortalLink(link))">传送链接</button>
+                        <button class="btn btn-primary" @onclick="@(() => GenPortalLink(target))">传送链接</button>
                     </td>
                 </tr>
             }
@@ -38,8 +38,10 @@ else
         _videos = await Http.GetFromJsonAsync<VideoInfo[]>("videos");
     }
 
-    private void GenPortalLink(string link)
+    private void GenPortalLink(string target)
     {
-        NavigationManager.NavigateTo($"link?reslink={link}");
+        var escapedTarget = Uri.EscapeDataString(target);
+        Console.WriteLine(escapedTarget);
+        NavigationManager.NavigateTo($"link?target={escapedTarget}");
     }
 }

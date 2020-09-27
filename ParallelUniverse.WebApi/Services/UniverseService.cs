@@ -29,5 +29,11 @@ namespace ParallelUniverse.WebApi
                 }
             }            
         }
+
+        public string GetResource(string key)
+        {
+            _linkCache.TryGetValue<string>(key, out var value);
+            return value;
+        }
     }
 }

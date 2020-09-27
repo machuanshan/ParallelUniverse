@@ -1,5 +1,6 @@
 ﻿@page "/video/{VideoName}"
 @inject IConfiguration Configuration
+@inject UniverseAuthStateProvider UniverseAuthStateProvider
 
 <h1>@VideoName</h1>
 
@@ -14,11 +15,12 @@
 
     private string _videoUrl;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
+        var token = await UniverseAuthStateProvider.GetTokenAsync();
         var webApiUrl = Configuration.GetValue<string>("puWebApi");
-        _videoUrl = $"{webApiUrl}/video/{VideoName}";
+        _videoUrl = $"{webApiUrl}video/{VideoName}?token={Uri.EscapeDataString(token)}";
 
-        base.OnInitialized();
+        await base.OnInitializedAsync();
     }
 }

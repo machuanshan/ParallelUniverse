@@ -92,5 +92,10 @@ namespace ParallelUniverse.Spa
 
             return false;
         }
+
+        public Task<string> GetTokenAsync()
+        {
+            return _sessionStorage.GetItemAsync<string>(AuthTokenName);
+        }
     }
 }

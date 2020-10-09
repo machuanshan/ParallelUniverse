@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParallelUniverse.Spa", "Par
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParallelUniverse.Model", "ParallelUniverse.Model\ParallelUniverse.Model.csproj", "{BBA76AC1-D2B9-41A3-B709-6B1347C05E69}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParallelUniverse.RazorPages", "ParallelUniverse.RazorPages\ParallelUniverse.RazorPages.csproj", "{50B9315D-67F3-44DD-9EF7-2698BFA83709}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{BBA76AC1-D2B9-41A3-B709-6B1347C05E69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBA76AC1-D2B9-41A3-B709-6B1347C05E69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBA76AC1-D2B9-41A3-B709-6B1347C05E69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50B9315D-67F3-44DD-9EF7-2698BFA83709}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50B9315D-67F3-44DD-9EF7-2698BFA83709}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50B9315D-67F3-44DD-9EF7-2698BFA83709}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50B9315D-67F3-44DD-9EF7-2698BFA83709}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

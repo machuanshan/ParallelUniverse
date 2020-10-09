@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using ParallelUniverse.Model;
 using ParallelUniverse.WebApi.Models;
 using System;
@@ -16,14 +17,16 @@ namespace ParallelUniverse.WebApi
     {
         private readonly IConfiguration _configuration;
         private IMemoryCache _sessions;
+        private readonly ILogger<UserService> _logger;
         private readonly AppData _appData;
 
-        public UserService(IConfiguration configuration, IMemoryCache memoryCache)
+        public UserService(IConfiguration configuration, IMemoryCache memoryCache, ILogger<UserService> logger)
         {
             _configuration = configuration;
             var jsonTxt = File.ReadAllText("./appdata.json");
             _appData = JsonSerializer.Deserialize<AppData>(jsonTxt);
             _sessions = memoryCache;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public string Login(LoginInfo loginInfo)
@@ -33,11 +36,14 @@ namespace ParallelUniverse.WebApi
 
             if(userInfo != null)
             {
-                var token = Utils.GetRandomString(64);
+                var token = Utils.GetRandomString(32);
                 _sessions.Set(token, userInfo, TimeSpan.FromMinutes(10));
+                _logger.LogInformation($"Login for user: {loginInfo.UserName}");
+
                 return token;
             }
 
+            _logger.LogInformation($"User not found: {loginInfo.UserName}");
             return null;
         }
 

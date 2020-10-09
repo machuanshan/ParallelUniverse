@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using System.Security.Cryptography;
 
 namespace ParallelUniverse.WebApi
@@ -10,7 +11,7 @@ namespace ParallelUniverse.WebApi
             using var rng = RandomNumberGenerator.Create();
             var randomData = new byte[dataLen];
             rng.GetNonZeroBytes(randomData);
-            return Convert.ToBase64String(randomData);
+            return new BigInteger(randomData).ToString();
         }
     }
 }

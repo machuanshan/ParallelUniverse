@@ -1,1 +1,21 @@
-docker run --name nginx -p 80:80 -v /nginx/conf:/etc/nginx/conf.d -d nginx
+docker run -d \
+--name puapi \
+-w /app \
+-v /home/mac/pu/puapi:/app \
+-v /datadrive/pu-resources:/pu-data \
+-e "VideoDir=/pu-data" \
+-p 8080:80 \
+mcr.microsoft.com/dotnet/core/aspnet:3.1 \
+dotnet ParallelUniverse.WebApi.dll
+
+
+docker run -d \
+--name puweb \
+-p 80:80 \
+-p 443:443 \
+--link puapi \
+-v /home/mac/pu/webui/pu.conf:/etc/nginx/nginx.conf \
+-v /home/mac/pu/webui/wwwroot:/wwwroot \
+-v /etc/letsencrypt/live/mac.japaneast.cloudapp.azure.com/fullchain.pem:/etc/nginx/ssl/pu_cert.pem \
+-v /etc/letsencrypt/live/mac.japaneast.cloudapp.azure.com/privkey.pem:/etc/nginx/ssl/pu_private.pem \
+nginx

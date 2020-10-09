@@ -1,0 +1,2 @@
+/etc/letsencrypt/live/mac.japaneast.cloudapp.azure.com/fullchain.pem
+/etc/letsencrypt/live/mac.japaneast.cloudapp.azure.com/privkey.pem

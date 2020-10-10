@@ -2,3 +2,24 @@
 @model ParallelUniverse.RazorPages.Pages.PubResModel
 
 <h1>发布资源</h1>
+
+<form method="post">
+    <div asp-validation-summary="All"></div>
+    <input asp-for="FileResource.Id" type="hidden"/>
+    
+    <div>
+        <label asp-for="FileResource.Name"></label>
+        <div>
+            <input required asp-for="FileResource.Name" />
+            <span asp-validation-for="FileResource.Name"></span>
+        </div>
+    </div>
+
+    <div>
+        <button type="submit">保存</button>
+    </div>
+</form>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

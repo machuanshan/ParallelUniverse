@@ -24,7 +24,8 @@ namespace ParallelUniverse.RazorPages
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ParallelUniverseContext>(ops => ops.UseInMemoryDatabase("pu"));
+            services.AddDbContext<ParallelUniverseContext>(ops => 
+                ops.UseSqlServer(Configuration.GetConnectionString("ParallelUniverse")));
             services.AddRazorPages();
         }
 

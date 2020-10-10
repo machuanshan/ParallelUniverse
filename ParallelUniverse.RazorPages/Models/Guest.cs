@@ -6,18 +6,16 @@ using System.Threading.Tasks;
 
 namespace ParallelUniverse.RazorPages.Models
 {
-    public class FileResource
+    public class Guest
     {
         public int Id { get; set; }
-
-        [Display(Name = "资源名")]
+        
         [Required]
-        [StringLength(50)]
+        [StringLength(100)]
         public string Name { get; set; }
 
-        public long Size { get; set; }
-
-        [StringLength(256)]
-        public string Path { get; set; }
+        [Required]
+        [StringLength(100, MinimumLength = 4)]
+        public string Password { get; set; }
     }
 }

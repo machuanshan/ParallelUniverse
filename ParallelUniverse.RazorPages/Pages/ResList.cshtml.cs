@@ -21,14 +21,13 @@ namespace ParallelUniverse.RazorPages.Pages
             _configuration = configuration;
         }
 
-        public IActionResult OnGetAsync()
+        public void OnGet()
         {
             var curDir = _configuration.GetValue<string>("ResourceRoot");
             FileInfos = Directory
                 .GetFiles(curDir)
                 .Select(f => new FileInfo(f))
                 .ToList();
-            return Page();
         }
     }
 }

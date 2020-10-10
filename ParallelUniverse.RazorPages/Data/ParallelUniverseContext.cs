@@ -15,6 +15,7 @@ namespace ParallelUniverse.RazorPages.Data
 
         }
 
-        public DbSet<FileResource> FileResources { get; set; }
+        public DbSet<FileResource> FileResource { get; set; }
+        public DbSet<Guest> Guest { get; set; }
     }
 }

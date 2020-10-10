@@ -7,6 +7,9 @@
 <div style="text-overflow: ellipsis; overflow:hidden; white-space: nowrap" title="@Model.FileResource.Name">
     @Model.FileResource.Name
 </div>
+<div>
+    @Model.FileResource.CreationDate.ToLocalTime().ToLongDateString()
+</div>
 <br />
 <video autoplay controls style="width:60%;height:60%">
     <source src="/VideoStream?file=@Uri.EscapeDataString(Model.FileResource.Path)" type="video/mp4" />

@@ -1,0 +1,26 @@
+﻿@page
+@model PortalLinkModel
+@{
+    ViewData["Title"] = "生成传送卷轴";
+}
+
+<h3>生成传送链</h3>
+
+<br />
+
+<form method="post">
+    <select class="form-control" asp-for="Duration">
+        <option selected value="">选择宇宙生命</option>
+        <option value="00:05:00">5分钟</option>
+        <option value="00:10:00">10分钟</option>
+        <option value="00:30:00">半小时</option>
+        <option value="01:00:00">1小时</option>
+        <option value="02:00:00">2小时</option>
+        <option value="06:00:00">6小时</option>
+        <option value="12:00:00">12小时</option>
+        <option value="1.00:00:00">1天</option>
+        <option value="2.00:00:00">2天</option>
+    </select>
+    <br />
+    <input type="submit" class="btn btn-primary" value="开始" />
+</form>

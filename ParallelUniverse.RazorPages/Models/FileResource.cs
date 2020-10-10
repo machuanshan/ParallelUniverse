@@ -19,5 +19,8 @@ namespace ParallelUniverse.RazorPages.Models
 
         [StringLength(256)]
         public string Path { get; set; }
+
+        [Required]
+        public DateTime CreationDate { get; set; }
     }
 }

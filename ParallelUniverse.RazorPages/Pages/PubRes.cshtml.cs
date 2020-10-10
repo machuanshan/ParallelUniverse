@@ -58,7 +58,7 @@ namespace ParallelUniverse.RazorPages.Pages
             var fileInfo = new FileInfo(path);
             FileResource.Path = path;
             FileResource.Size = fileInfo.Length;
-
+            FileResource.CreationDate = DateTime.UtcNow;
             _puctx.FileResource.Add(FileResource);
             await _puctx.SaveChangesAsync();
             

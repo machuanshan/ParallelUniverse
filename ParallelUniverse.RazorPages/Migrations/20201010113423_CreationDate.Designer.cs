@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ParallelUniverse.RazorPages.Data;
 
 namespace ParallelUniverse.RazorPages.Migrations
 {
     [DbContext(typeof(ParallelUniverseContext))]
-    partial class ParallelUniverseContextModelSnapshot : ModelSnapshot
+    [Migration("20201010113423_CreationDate")]
+    partial class CreationDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

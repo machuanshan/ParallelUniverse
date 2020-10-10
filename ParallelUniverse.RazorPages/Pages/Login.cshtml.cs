@@ -41,7 +41,7 @@ namespace ParallelUniverse.RazorPages.Pages
             }
 
             await Task.CompletedTask;
-            return RedirectToPage("./Index");
+            return RedirectToPage("./ResList");
         }
     }
 }

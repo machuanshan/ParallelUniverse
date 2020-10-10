@@ -19,9 +19,16 @@ namespace ParallelUniverse.RazorPages.Pages
             _puctx = puctx;
         }
 
-        public async Task OnGetAsync(int id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
             FileResource = await _puctx.FileResource.FindAsync(id);
+
+            if(FileResource == null)
+            {
+                return NotFound();
+            }
+
+            return Page();
         }
     }
 }

@@ -1,16 +1,18 @@
 ﻿@page
-@model ParallelUniverse.RazorPages.Pages.PubResModel
-@{ 
+@model PubResModel
+@{
     ViewData["Title"] = "发布资源";
 }
 <h2>发布资源</h2>
 
 <form method="post">
-    
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
     <div class="form-group">
         <label>资源名称</label>
         <input required class="form-control" asp-for="FileResource.Name" />
-        <span asp-validation-for="FileResource.Name"></span>
+        <span asp-validation-for="FileResource.Name" class="text-danger"></span>
     </div>
 
     <div class="form-group">
@@ -25,6 +27,6 @@
     <button class="btn btn-primary" type="submit">保存</button>
 </form>
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

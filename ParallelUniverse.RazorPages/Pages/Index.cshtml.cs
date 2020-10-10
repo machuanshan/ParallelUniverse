@@ -22,11 +22,21 @@ namespace ParallelUniverse.RazorPages.Pages
             _logger = logger;
         }
 
+        [BindProperty(SupportsGet = true)]
+        public string SearchString { get; set; }
         public List<FileResource> FileResources { get; private set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            FileResources = await _puctx.FileResource.ToListAsync();
+            if (string.IsNullOrEmpty(SearchString))
+            {
+                FileResources = await _puctx.FileResource.ToListAsync();
+            }
+            else
+            {
+                FileResources = await _puctx.FileResource.Where(fr => fr.Name.Contains(SearchString)).ToListAsync();
+            }
+
             return Page();
         }
     }

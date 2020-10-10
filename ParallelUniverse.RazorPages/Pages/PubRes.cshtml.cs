@@ -26,16 +26,17 @@ namespace ParallelUniverse.RazorPages.Pages
 
         public IActionResult OnGet(string path)
         {
+            if (!System.IO.File.Exists(path))
+            {
+                return NotFound();
+            }
+            
             FileResource = new FileResource
             {
                 Name = Path.GetFileName(path),
                 Path = path
             };
 
-            if (!System.IO.File.Exists(path))
-            {
-                ModelState.AddModelError("", "文件不存在");
-            }
 
             var fileInfo = new FileInfo(path);
             FileResource.Size = fileInfo.Length;
@@ -51,8 +52,7 @@ namespace ParallelUniverse.RazorPages.Pages
 
             if (!System.IO.File.Exists(path))
             {
-                ModelState.AddModelError("", "文件不存在");
-                return Page();
+                return NotFound();
             }
 
             var fileInfo = new FileInfo(path);

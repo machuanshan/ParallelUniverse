@@ -4,18 +4,26 @@
     ViewData["Title"] = "首页";
 }
 
-<table class="table table-striped">
-    <tbody>
-        @foreach (var fr in Model.FileResources)
-        {            
-            <tr>
-                <td>
-                    <a asp-page="Video" asp-route-id="@fr.Id">@fr.Name</a>
-                </td>
-                <td>
-                    <button class="btn btn-primary">传送链接</button>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+@if (Model.FileResources.Count == 0)
+{
+    <h6 style="text-align:center;font-size:24px;">空空如也</h6>
+}
+else
+{
+    <table class="table table-striped">
+        <tbody>
+            @foreach (var fr in Model.FileResources)
+            {
+                <tr>
+                    <td>
+                        <a asp-page="Video" asp-route-id="@fr.Id">@fr.Name</a>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary">删除</button>
+                        <button class="btn btn-primary">传送链接</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

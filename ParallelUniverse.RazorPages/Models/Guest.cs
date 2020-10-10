@@ -17,5 +17,9 @@ namespace ParallelUniverse.RazorPages.Models
         [Required]
         [StringLength(100, MinimumLength = 4)]
         public string Password { get; set; }
+        
+        [StringLength(20)]
+        public string DisplayName { get; set; }
+        public DateTime CreationTime { get; set; }
     }
 }

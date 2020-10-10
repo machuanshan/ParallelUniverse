@@ -39,5 +39,12 @@ namespace ParallelUniverse.RazorPages.Pages
 
             return Page();
         }
+
+        public async Task<IActionResult> OnPostDeleteAsync(int id)
+        {
+            _puctx.FileResource.Remove(new FileResource { Id = id });
+            await _puctx.SaveChangesAsync();
+            return RedirectToPage();
+        }
     }
 }

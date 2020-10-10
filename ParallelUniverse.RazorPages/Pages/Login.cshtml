@@ -1,16 +1,21 @@
 ﻿@page
 @model LoginModel
 
+@{
+    ViewData["Title"] = "登录";
+}
 <h3>传送门开启，请先验证身份</h3>
 
 <form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     <div class="form-group">
         <input id="userName"
                class="form-control"
                required
                placeholder="用户名"
-               asp-for="UserName"/>
+               asp-for="UserName" />
+        <span asp-validation-for="UserName" class="text-danger"></span>
     </div>
 
     <div class="form-group">
@@ -19,7 +24,12 @@
                class="form-control"
                required
                placeholder="密码"
-               asp-for="Password"/>
+               asp-for="Password" />
+        <span asp-validation-for="Password" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">进入</button>
 </form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

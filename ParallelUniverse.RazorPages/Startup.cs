@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,15 @@ namespace ParallelUniverse.RazorPages
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Login";
+                    options.LogoutPath = "/Logout";
+                    options.SlidingExpiration = true;
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+                    options.Cookie.HttpOnly = true;
+                });
             services.AddDbContext<ParallelUniverseContext>(ops => 
                 ops.UseSqlServer(Configuration.GetConnectionString("ParallelUniverse")));
             services.AddRazorPages();
@@ -44,12 +54,13 @@ namespace ParallelUniverse.RazorPages
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
+                endpoints.MapRazorPages()
+                    .RequireAuthorization();
             });
         }
     }

@@ -1,13 +1,11 @@
 using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Numerics;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Caching.Memory;
 using ParallelUniverse.RazorPages.Data;
 
@@ -19,6 +17,7 @@ namespace ParallelUniverse.RazorPages.Pages
         private readonly ParallelUniverseContext _puctx;
 
         [BindProperty]
+        [Required]
         public string Duration { get; set; }
 
         public string PortalLink { get; private set; }
@@ -34,7 +33,7 @@ namespace ParallelUniverse.RazorPages.Pages
 
         }
 
-        public IActionResult OnPostAsync(int id)
+        public async Task<IActionResult> OnPostAsync(int id)
         {
             if(!_puctx.FileResource.Any(fr => fr.Id == id))
             {
@@ -46,7 +45,7 @@ namespace ParallelUniverse.RazorPages.Pages
                 return BadRequest();
             }
 
-            var key = GeneratePortalKey(id, result);
+            var key = await GeneratePortalKey(id, result);
             PortalLink = $"{Request.Scheme}://{Request.Host}/puvideo?key={key}";
 
             return Page();
@@ -60,15 +59,17 @@ namespace ParallelUniverse.RazorPages.Pages
             return new BigInteger(randomData).ToString();
         }
 
-        public string GeneratePortalKey(int resId, TimeSpan duration)
+        public async Task<string> GeneratePortalKey(int resId, TimeSpan duration)
         {
+            var fr = await _puctx.FileResource.FindAsync(resId);
+
             while (true)
             {
                 var key = GetRandomString(8);
 
                 if (!_memcache.TryGetValue(key, out _))
                 {
-                    _memcache.Set(key, resId, duration);
+                    _memcache.Set(key, fr, duration);
                     return key;
                 }
             }

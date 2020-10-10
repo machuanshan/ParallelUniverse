@@ -9,7 +9,7 @@
 <br />
 
 <form method="post">
-    <select class="form-control" asp-for="Duration">
+    <select class="form-control" asp-for="Duration" required>
         <option selected value="">选择宇宙生命</option>
         <option value="00:05:00">5分钟</option>
         <option value="00:10:00">10分钟</option>
@@ -20,6 +20,7 @@
         <option value="12:00:00">12小时</option>
         <option value="1.00:00:00">1天</option>
     </select>
+    <span class="text-danger" asp-validation-for="Duration"></span>
     <br />
     <input type="submit" class="btn btn-primary" value="开始" />
 </form>

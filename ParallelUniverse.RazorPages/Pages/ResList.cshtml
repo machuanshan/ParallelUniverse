@@ -1,22 +1,49 @@
 ﻿@page
 @model ParallelUniverse.RazorPages.Pages.ResListModel
+@{
+    ViewData["Title"] = "管理资源";
+}
 
-<h1>浏览资源</h1>
+<h2>管理资源</h2>
 
-<table class="table table-striped">
-    <tbody>
-        @foreach (var v in Model.FileInfos)
-        {
-            var target = Uri.EscapeUriString(v.Name);
+<h6>@(Model.CurrentDirectory)</h6>
 
-            <tr>
-                <td>
-                    <a href="@target">@v.Name</a>
-                </td>
-                <td>
-                    <a asp-page="./PubRes" asp-route-path="@v.FullName">发布</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+
+@if (Model.FileInfos.Count == 0 && Model.Directories.Length == 0)
+{
+    <h6>这里空空如也</h6>
+}
+else
+{
+    <table class="table table-striped">
+        <tbody>
+            @if (Model.Directories.Length != 0)
+            {
+                @foreach (var dir in Model.Directories)
+                {
+                    var dirName = System.IO.Path.GetFileName(dir);
+                    <tr>
+                        <td colspan="2">
+                            <a asp-page="" asp-route-dir="@dir">@dirName</a>
+                        </td>
+                    </tr>
+                }
+            }
+            @if (Model.FileInfos.Count != 0)
+            {
+                @foreach (var f in Model.FileInfos)
+                {
+                    <tr>
+                        <td>
+                            <a asp-page="./PubRes" asp-route-path="@f.FullName">@f.Name</a>
+                        </td>
+                        <td>
+                            <a asp-page="./PubRes" asp-route-path="@f.FullName">发布</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+

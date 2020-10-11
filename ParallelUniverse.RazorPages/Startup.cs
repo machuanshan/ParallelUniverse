@@ -39,13 +39,19 @@ namespace ParallelUniverse.RazorPages
                     options.Cookie.HttpOnly = true;
                 });
             services.AddDbContext<ParallelUniverseContext>(ops => 
-                ops.UseSqlServer(Configuration.GetConnectionString("ParallelUniverse")));
+                ops.UseMySQL(Configuration.GetConnectionString("ParallelUniverse")));
             services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<ParallelUniverseContext>();
+                context.Database.Migrate();
+            }
+
             app.Use(async (ctx, next) =>
             {
                 if(ctx.Request.Headers.TryGetValue(HeaderNames.UserAgent, out var userAgent))

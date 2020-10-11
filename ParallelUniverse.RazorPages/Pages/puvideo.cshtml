@@ -2,10 +2,11 @@
 @model puvideoModel
 @{
     Layout = null;
-
-    ViewData["Title"] = Model.FileResource.Name;
 }
 <html>
+<head>
+    <title>@Model.FileResource.Name</title>
+</head>
 <body>
     <div style="text-overflow: ellipsis; overflow:hidden; white-space: nowrap" title="@Model.FileResource.Name">
         @Model.FileResource.Name

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -58,7 +59,8 @@ namespace ParallelUniverse.RazorPages
                 {
                     if(userAgent.ToString().Contains("MicroMessenger", StringComparison.OrdinalIgnoreCase))
                     {
-                        await ctx.Response.WriteAsync("不支持微信浏览，请点击右上角菜单，在浏览器中打开");
+                        var content = File.ReadAllBytes(Path.Combine(env.WebRootPath, "notsupport.html"));
+                        await ctx.Response.BodyWriter.WriteAsync(content);
                         return;
                     }
                 }

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using ParallelUniverse.RazorPages.Data;
 
 namespace ParallelUniverse.RazorPages.Pages
@@ -18,6 +19,7 @@ namespace ParallelUniverse.RazorPages.Pages
     public class LoginModel : PageModel
     {
         private readonly ParallelUniverseContext _puc;
+        private readonly ILogger<LoginModel> _logger;
 
         [BindProperty]
         [Required]
@@ -29,9 +31,10 @@ namespace ParallelUniverse.RazorPages.Pages
         [StringLength(50, MinimumLength = 4)]
         public string Password { get; set; }
 
-        public LoginModel(ParallelUniverseContext puc)
+        public LoginModel(ParallelUniverseContext puc, ILogger<LoginModel> logger)
         {
             _puc = puc;
+            _logger = logger;
         }
 
         public IActionResult OnGet()
@@ -43,6 +46,7 @@ namespace ParallelUniverse.RazorPages.Pages
         {
             if(!ModelState.IsValid)
             {
+                _logger.LogWarning($"Bad model data, {ModelState.Values.FirstOrDefault()}");
                 return Page();
             }
 
@@ -51,6 +55,7 @@ namespace ParallelUniverse.RazorPages.Pages
 
             if(guest == null)
             {
+                _logger.LogWarning($"Failed to login, user: {UserName}, password: {Password}");
                 ModelState.AddModelError("", "—È÷§ ß∞‹");
                 return Page();
             }
@@ -71,6 +76,7 @@ namespace ParallelUniverse.RazorPages.Pages
                 IssuedUtc = DateTimeOffset.Now,
             };
 
+            _logger.LogInformation($"Login passed for user: {UserName}");
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity),

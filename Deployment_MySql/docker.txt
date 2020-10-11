@@ -1,0 +1,25 @@
+docker run -d \
+--name pu-mysql \
+-v /datadrive/pu-appdata/mysql:/var/lib/mysql \
+-e MYSQL_ROOT_PASSWORD= \
+mysql:8.0.21
+
+docker run -d \
+--name pu-web \
+--link pu-mysql \
+-w /app \
+-v /home/mac/pu/pu-web:/app \
+-v /datadrive/pu-resources:/pu-data \
+-e "ResourceRoot=/pu-data" \
+mcr.microsoft.com/dotnet/core/aspnet:3.1 \
+dotnet ParallelUniverse.RazorPages.dll
+
+docker run -d \
+--name pu-nginx \
+-p 80:80 \
+-p 443:443 \
+--link pu-web \
+-v /home/mac/pu/pu.conf:/etc/nginx/nginx.conf \
+-v /etc/letsencrypt/live/mac.japaneast.cloudapp.azure.com/fullchain.pem:/etc/nginx/ssl/pu_cert.pem \
+-v /etc/letsencrypt/live/mac.japaneast.cloudapp.azure.com/privkey.pem:/etc/nginx/ssl/pu_private.pem \
+nginx

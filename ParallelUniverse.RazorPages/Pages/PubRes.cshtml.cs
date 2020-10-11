@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using ParallelUniverse.RazorPages.Data;
 using ParallelUniverse.RazorPages.Models;
 
@@ -15,19 +16,22 @@ namespace ParallelUniverse.RazorPages.Pages
     public class PubResModel : PageModel
     {
         private readonly ParallelUniverseContext _puctx;
+        private readonly ILogger<PubResModel> _logger;
 
         [BindProperty]
         public FileResource FileResource { get; set; }
 
-        public PubResModel(ParallelUniverseContext puctx)
+        public PubResModel(ParallelUniverseContext puctx, ILogger<PubResModel> logger)
         {
             _puctx = puctx;
+            _logger = logger;
         }
 
         public IActionResult OnGet(string path)
         {
             if (!System.IO.File.Exists(path))
             {
+                _logger.LogError($"File not found: {path}");
                 return NotFound();
             }
             
@@ -36,7 +40,6 @@ namespace ParallelUniverse.RazorPages.Pages
                 Name = Path.GetFileName(path),
                 Path = path
             };
-
 
             var fileInfo = new FileInfo(path);
             FileResource.Size = fileInfo.Length;
@@ -47,11 +50,13 @@ namespace ParallelUniverse.RazorPages.Pages
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogWarning($"Bad model data: {ModelState.Values.FirstOrDefault()}");
                 return Page();
             }
 
             if (!System.IO.File.Exists(path))
             {
+                _logger.LogError($"Cannot publish resource, file not found, {path}");
                 return NotFound();
             }
 
@@ -61,7 +66,8 @@ namespace ParallelUniverse.RazorPages.Pages
             FileResource.CreationDate = DateTime.UtcNow;
             _puctx.FileResource.Add(FileResource);
             await _puctx.SaveChangesAsync();
-            
+
+            _logger.LogInformation($"Resource published: {path}");
             return RedirectToPage("./ResList");
         }
     }

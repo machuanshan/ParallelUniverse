@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using ParallelUniverse.RazorPages.Models;
 
 namespace ParallelUniverse.RazorPages.Pages
@@ -11,12 +12,14 @@ namespace ParallelUniverse.RazorPages.Pages
     public class puvideoModel : PageModel
     {
         private readonly IMemoryCache _memoryCache;
+        private readonly ILogger<puvideoModel> _logger;
 
         public FileResource FileResource { get; private set; }
 
-        public puvideoModel(IMemoryCache memoryCache)
+        public puvideoModel(IMemoryCache memoryCache, ILogger<puvideoModel> logger)
         {
             _memoryCache = memoryCache;
+            _logger = logger;
         }
 
         [Required]
@@ -27,6 +30,7 @@ namespace ParallelUniverse.RazorPages.Pages
         {
             if(!_memoryCache.TryGetValue<FileResCacheEntry>(Key, out var resEntry))
             {
+                _logger.LogWarning($"Invalid portal key: {Key}");
                 return NotFound();
             }
 

@@ -18,12 +18,10 @@ namespace ParallelUniverse.RazorPages.Pages
     public class puvideostreamModel : PageModel
     {
         private const string ClientId = "ClientId";
-        private readonly ParallelUniverseContext _puctx;
         private readonly IMemoryCache _memoryCache;
 
-        public puvideostreamModel(ParallelUniverseContext puctx, IMemoryCache memoryCache)
+        public puvideostreamModel(IMemoryCache memoryCache)
         {
-            _puctx = puctx;
             _memoryCache = memoryCache;
         }
 

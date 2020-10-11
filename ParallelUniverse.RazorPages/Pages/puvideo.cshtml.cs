@@ -15,14 +15,12 @@ namespace ParallelUniverse.RazorPages.Pages
     [AllowAnonymous]
     public class puvideoModel : PageModel
     {
-        private readonly ParallelUniverseContext _puctx;
         private readonly IMemoryCache _memoryCache;
 
         public FileResource FileResource { get; private set; }
 
-        public puvideoModel(ParallelUniverseContext puctx, IMemoryCache memoryCache)
+        public puvideoModel(IMemoryCache memoryCache)
         {
-            _puctx = puctx;
             _memoryCache = memoryCache;
         }
 

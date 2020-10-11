@@ -19,7 +19,7 @@ namespace ParallelUniverse.RazorPages.Pages
         private readonly IConfiguration _configuration;
         private readonly IMemoryCache _memcache;
         private readonly ParallelUniverseContext _puctx;
-        private readonly ILogger _logger;
+        private readonly ILogger<PortalLinkModel> _logger;
 
         [BindProperty]
         [Required]
@@ -27,7 +27,7 @@ namespace ParallelUniverse.RazorPages.Pages
 
         public string PortalLink { get; private set; }
 
-        public PortalLinkModel(IConfiguration configuration, IMemoryCache memcache, ParallelUniverseContext puctx, ILogger logger)
+        public PortalLinkModel(IConfiguration configuration, IMemoryCache memcache, ParallelUniverseContext puctx, ILogger<PortalLinkModel> logger)
         {
             _memcache = memcache;
             _puctx = puctx;

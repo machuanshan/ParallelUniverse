@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ParallelUniverse.RazorPages.Migrations
 {
@@ -14,7 +15,8 @@ namespace ParallelUniverse.RazorPages.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
                     Size = table.Column<long>(nullable: false),
-                    Path = table.Column<string>(maxLength: 256, nullable: true)
+                    Path = table.Column<string>(maxLength: 256, nullable: true),
+                    CreationDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -28,7 +30,9 @@ namespace ParallelUniverse.RazorPages.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
-                    Password = table.Column<string>(maxLength: 100, nullable: false)
+                    Password = table.Column<string>(maxLength: 100, nullable: false),
+                    DisplayName = table.Column<string>(maxLength: 20, nullable: true),
+                    CreationTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {

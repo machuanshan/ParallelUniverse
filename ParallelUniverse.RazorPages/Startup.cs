@@ -59,6 +59,7 @@ namespace ParallelUniverse.RazorPages
                 {
                     if(userAgent.ToString().Contains("MicroMessenger", StringComparison.OrdinalIgnoreCase))
                     {
+                        ctx.Response.ContentType = "text/html";
                         var content = File.ReadAllBytes(Path.Combine(env.WebRootPath, "notsupport.html"));
                         await ctx.Response.BodyWriter.WriteAsync(content);
                         return;

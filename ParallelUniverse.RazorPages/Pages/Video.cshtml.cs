@@ -39,6 +39,7 @@ namespace ParallelUniverse.RazorPages.Pages
                 return NotFound();
             }
 
+            _logger.LogInformation($"Play file: {FileResource.Path}");
             return Page();
         }
     }

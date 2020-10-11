@@ -11,6 +11,6 @@
     @Model.FileResource.CreationDate.ToLocalTime().ToLongDateString()
 </div>
 <br />
-<video autoplay controls style="width:60%;height:60%">
-    <source src="/VideoStream?file=@Uri.EscapeDataString(Model.FileResource.Path)" type="video/mp4" />
+<video autoplay controls style="width:80%;">
+    <source src="/VideoStream?file=@Model.FileResource.Path" type="video/mp4" />
 </video>

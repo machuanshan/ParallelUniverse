@@ -20,7 +20,7 @@ namespace ParallelUniverse.RazorPages.Pages
 
         public IActionResult OnGet(string file)
         {
-            _logger.LogDebug($"Send file: {file}");
+            _logger.LogInformation($"Send file: {file}");
 
             return new PhysicalFileResult(file, "application/octet-stream")
             {

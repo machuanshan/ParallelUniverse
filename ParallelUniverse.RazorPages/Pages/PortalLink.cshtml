@@ -33,18 +33,12 @@
         <span id="portalLinkText">@Model.PortalLink</span>
         <br />
     </div>
-    <button class="btn btn-primary" onclick="copyToClipboard">复制</button>
+    <button class="btn btn-primary" onclick="copyToClipboard()">复制</button>
 }
 
-<script>
-    function copyToClipboard() {
+<script type="text/javascript">
+    async function copyToClipboard() {
         var copyText = document.getElementById("portalLinkText");
-
-        /* Select the text field */
-        copyText.select();
-        copyText.setSelectionRange(0, 99999); /*For mobile devices*/
-
-        /* Copy the text inside the text field */
-        document.execCommand("copy");
+        await navigator.clipboard.writeText(copyText.innerText);
     }
 </script>

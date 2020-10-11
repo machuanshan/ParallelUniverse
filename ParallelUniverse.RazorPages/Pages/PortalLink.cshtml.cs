@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Caching.Memory;
 using ParallelUniverse.RazorPages.Data;
+using ParallelUniverse.RazorPages.Models;
 
 namespace ParallelUniverse.RazorPages.Pages
 {
@@ -69,7 +70,13 @@ namespace ParallelUniverse.RazorPages.Pages
 
                 if (!_memcache.TryGetValue(key, out _))
                 {
-                    _memcache.Set(key, fr, duration);
+                    var entry = new FileResCacheEntry
+                    {
+                        Resource = fr,
+                        ExpirationTime = duration
+                    };
+
+                    _memcache.Set(key, entry, duration);
                     return key;
                 }
             }

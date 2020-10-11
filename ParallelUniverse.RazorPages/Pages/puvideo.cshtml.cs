@@ -32,17 +32,12 @@ namespace ParallelUniverse.RazorPages.Pages
 
         public IActionResult OnGetAsync()
         {
-            if(!_memoryCache.TryGetValue<FileResource>(Key, out var res))
+            if(!_memoryCache.TryGetValue<FileResCacheEntry>(Key, out var resEntry))
             {
                 return NotFound();
             }
 
-            FileResource = res;
-
-            if (FileResource == null)
-            {
-                return NotFound();
-            }
+            FileResource = resEntry.Resource;
 
             return Page();
         }

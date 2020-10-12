@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -64,6 +65,7 @@ namespace ParallelUniverse.RazorPages.Pages
             FileResource.Path = path;
             FileResource.Size = fileInfo.Length;
             FileResource.CreationDate = DateTime.UtcNow;
+            FileResource.GuestId = User.GetUserId();
             _puctx.FileResource.Add(FileResource);
             await _puctx.SaveChangesAsync();
 

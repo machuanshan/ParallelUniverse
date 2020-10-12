@@ -64,7 +64,8 @@ namespace ParallelUniverse.RazorPages.Pages
             {
                 new Claim(ClaimTypes.Name, guest.Name),
                 new Claim("FullName", guest.DisplayName),
-                new Claim(ClaimTypes.Role, "Guest")
+                new Claim(ClaimTypes.Role, "Guest"),
+                new Claim(ClaimTypes.Sid, guest.Id.ToString())
             };
 
             var claimsIdentity = new ClaimsIdentity(

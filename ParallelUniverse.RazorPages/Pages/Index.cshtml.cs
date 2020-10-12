@@ -28,15 +28,14 @@ namespace ParallelUniverse.RazorPages.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
-            if (string.IsNullOrEmpty(SearchString))
+            var userId = User.GetUserId();
+            var query = _puctx.FileResource.Where(fr => fr.GuestId == userId);
+            if (!string.IsNullOrEmpty(SearchString))
             {
-                FileResources = await _puctx.FileResource.ToListAsync();
-            }
-            else
-            {
-                FileResources = await _puctx.FileResource.Where(fr => fr.Name.Contains(SearchString)).ToListAsync();
+                query = query.Where(fr => fr.Name.Contains(SearchString));
             }
 
+            FileResources = await query.ToListAsync();
             return Page();
         }
 

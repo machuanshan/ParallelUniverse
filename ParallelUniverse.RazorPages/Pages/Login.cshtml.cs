@@ -82,6 +82,11 @@ namespace ParallelUniverse.RazorPages.Pages
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties);
             
+            if(string.IsNullOrEmpty(returnUrl))
+            {
+                returnUrl = "/";
+            }
+
             return Redirect(returnUrl);
         }
     }
